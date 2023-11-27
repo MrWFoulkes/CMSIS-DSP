@@ -1,0 +1,18 @@
+{
+  "$schema": "https://raw.githubusercontent.com/platformio/platformio-core/develop/platformio/assets/schema/library.json",
+  "name": "CMSIS-DSP",
+  "version": "1.15.0",
+  "build": {
+    "srcDir": "Source",
+    "includeDir": "Include",
+    "flags":[
+      "-I PrivateInclude"
+    ]
+  },
+  "export": {
+    "include": [
+      "Include",
+      "Source"
+    ]
+  }
+}
