@@ -59,7 +59,6 @@
    @param[in]       pInputQuaternions points to an array of normalized quaternions
    @param[out]      pOutputRotations points to an array of 3x3 rotations (in row order)
    @param[in]       nbQuaternions number of quaternions in the array
-   @return none.
   
    @par
    Format of rotation matrix
@@ -78,7 +77,7 @@
 
 #include "arm_helium_utils.h"
 
-void arm_quaternion2rotation_f32(const float32_t *pInputQuaternions, 
+ARM_DSP_ATTRIBUTE void arm_quaternion2rotation_f32(const float32_t *pInputQuaternions, 
     float32_t *pOutputRotations, 
     uint32_t nbQuaternions)
 {
@@ -141,7 +140,7 @@ void arm_quaternion2rotation_f32(const float32_t *pInputQuaternions,
 }
 
 #else
-void arm_quaternion2rotation_f32(const float32_t *pInputQuaternions, 
+ARM_DSP_ATTRIBUTE void arm_quaternion2rotation_f32(const float32_t *pInputQuaternions, 
     float32_t *pOutputRotations, 
     uint32_t nbQuaternions)
 {

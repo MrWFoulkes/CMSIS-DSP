@@ -5,6 +5,7 @@
 #if defined(EMBEDDED)
 #include "FPGA.h"
 #else
+#error("Only EMBEDDED mode is supported. Other modes are deprecated")
 #include "Semihosting.h"
 #endif
 #include "IORunner.h"
@@ -46,7 +47,7 @@ int testmain(const char *patterns)
 
            // There is also possibility of using "FPGA" io
            #if defined(EMBEDDED)
-              Client::FPGA io(testDesc,patterns);
+              Client::FPGA io((const char*)testDesc,(const char*)patterns);
            #else
               Client::Semihosting io("../TestDesc.txt","../Patterns","../Output","../Parameters");
            #endif

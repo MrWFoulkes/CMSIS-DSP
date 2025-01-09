@@ -1,7 +1,10 @@
 # CMSIS-DSP
 
-![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/ARM-software/CMSIS-DSP?include_prereleases) ![GitHub](https://img.shields.io/github/license/ARM-software/CMSIS-DSP)
+![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/ARM-software/CMSIS-DSP?include_prereleases) ![GitHub](https://img.shields.io/github/license/ARM-software/CMSIS-DSP) 
 
+[![C Tests](https://github.com/ARM-software/CMSIS-DSP/actions/workflows/runtest.yaml/badge.svg)](https://github.com/ARM-software/CMSIS-DSP/actions/workflows/runtest.yaml)
+
+[![CPP Tests](https://github.com/ARM-software/CMSIS-DSP/actions/workflows/runcpptest.yaml/badge.svg)](https://github.com/ARM-software/CMSIS-DSP/actions/workflows/runcpptest.yaml)
 
 ## About
 
@@ -15,7 +18,6 @@ This repository contains the CMSIS-DSP library and several other projects:
 
 * Test framework for bare metal Cortex-M or Cortex-A
 * Examples for bare metal Cortex-M
-* ComputeGraph
 * PythonWrapper
 
 You don't need any of the other projects to build and use CMSIS-DSP library. Building the other projects may require installation of other libraries (CMSIS), other tools (Arm Virtual Hardware) or CMSIS build tools.
@@ -46,20 +48,6 @@ With this wrapper you can design your algorithm in Python using an API as close 
 
 The goal is to make it easier to move from a design to a final implementation in C.
 
-### Compute Graph
-
-CMSIS-DSP is also providing an experimental [static scheduler for compute graph](ComputeGraph/README.md) to describe streaming solutions:
-
-* You define your compute graph in Python
-* A static and deterministic schedule (computed by the Python script) is generated
-* The static schedule can be run on the device with low overhead
-
-The Python scripts for the static scheduler generator are part of the CMSIS-DSP Python wrapper. 
-
-The header files are part of the CMSIS-DSP pack (version 1.10.2 and above).
-
-The Compute Graph makes it easier to implement a streaming solution : connecting different compute kernels each consuming and producing different amount of data.
-
 ## Support / Contact
 
 For any questions or to reach the CMSIS-DSP  team, please create a new issue in https://github.com/ARM-software/CMSIS-DSP/issues
@@ -75,7 +63,7 @@ For any questions or to reach the CMSIS-DSP  team, please create a new issue in 
   * [How to build with Make](#how-to-build-with-make)
   * [How to build with cmake](#how-to-build-with-cmake)
   * [How to build with any other build system](#how-to-build-with-any-other-build-system)
-  * [How to build for aarch64](#how-to-build-for-aarch64)
+  * [How to build for Neon and aarch64](#how-to-build-for-aarch64)
 * [Code size](#code-size)
 * [Folders and files](#folders-and-files)
   * [Folders](#folders)
@@ -202,12 +190,13 @@ You need the following folders:
 * Include
 * PrivateInclude
 * ComputeLibrary (only if you target Neon)
+* Ne10 (only if you target Neon)
 
 In `Source` subfolders, you may either build all of the source file with a datatype suffix (like `_f32.c`), or just compile the files without a datatype suffix. For instance for `BasicMathFunctions`, you can build all the C files except `BasicMathFunctions.c` and `BasicMathFunctionsF16.c`, or you can just build those two files (they are including all of the other C files of the folder).
 
 `f16` files are not mandatory. You can build with `-DDISABLEFLOAT16`
 
-### How to build for aarch64
+### How to build for Neon and aarch64
 
 The intrinsics defined in `Core_A/Include` are not available on recent Cortex-A processors.
 
@@ -233,6 +222,14 @@ For cmake the equivalent options are:
 * `-DNEON=ON`
 
 cmake is automatically including the `ComputeLibrary` folder. If you are using a different build, you need to include this folder too to build with Neon support.
+
+Some APIs are a different on Neon:
+
+* Biquad f32 initialization is done differently
+* CFFT and RFFT F32 have different APIs. They are no more in-place and require use of an additional temporary buffer
+* MFCC F32 requires the use of a second temporary buffer
+
+See the Doxygen documentation for the size of those additional buffers. You can also look at the tests in `Testing/Source/Tests` to see how to use the functions.
 
 ## Code size
 
@@ -277,12 +274,6 @@ Other folders are part of different projects, tests or examples.
 * Scripts:
   * Debugging scripts
   * Script to generate some coefficient tables used by CMSIS-DSP
-* Compute Graph:
-  * Not needed to build CMSIS-DSP. This project is relying on CMSIS-DSP library
-  * Examples for the Compute Graph
-  * C++ templates for the Compute Graph
-  * Default (and optional) nodes
-  
 * Source:
   * CMSIS-DSP source
 * Testing:
@@ -298,9 +289,3 @@ Some files are needed to generate the PythonWrapper:
 * MANIFEST.in
 * pyproject.toml
 * setup.py
-
-And we have a script to make it easier to customize the build:
-
-* cmsisdspconfig.py:
-  * Web browser UI to generate build configurations (temporary until the CMSIS-DSP configuration is reworked to be simpler and more maintainable)
-

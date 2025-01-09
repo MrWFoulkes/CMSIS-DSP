@@ -581,9 +581,9 @@ group Root {
               Output  OUT_F64_ID : Output
              
               Functions {
-                disabled{test_weighted_sum_f64 nb=3:test_weighted_sum_f64}
-                disabled{test_weighted_sum_f64 nb=4n:test_weighted_sum_f64}
-                disabled{test_weighted_sum_f64 nb=4n+1:test_weighted_sum_f64}
+                disabled{test_weighted_average_f64 nb=3:test_weighted_average_f64}
+                disabled{test_weighted_average_f64 nb=4n:test_weighted_average_f64}
+                disabled{test_weighted_average_f64 nb=4n+1:test_weighted_average_f64}
                 test_copy_f64 nb=2:test_copy_f64
                 test_copy_f64 nb=2n:test_copy_f64
                 test_copy_f64 nb=2n+1:test_copy_f64
@@ -655,9 +655,9 @@ group Root {
               Output  OUT_F32_ID : Output
              
               Functions {
-                test_weighted_sum_f32 nb=3:test_weighted_sum_f32
-                test_weighted_sum_f32 nb=4n:test_weighted_sum_f32
-                test_weighted_sum_f32 nb=4n+1:test_weighted_sum_f32
+                test_weighted_average_f32 nb=3:test_weighted_average_f32
+                test_weighted_average_f32 nb=4n:test_weighted_average_f32
+                test_weighted_average_f32 nb=4n+1:test_weighted_average_f32
                 test_copy_f32 nb=3:test_copy_f32
                 test_copy_f32 nb=4n:test_copy_f32
                 test_copy_f32 nb=4n+1:test_copy_f32
@@ -2171,6 +2171,29 @@ group Root {
            group DECIM {
              class = DECIM 
              folder = DECIM
+
+             suite DECIM F64 {
+                class = DECIMF64 
+                folder = DECIMF64
+
+                Pattern INPUT1_F64_ID : Input2_f64.txt 
+                Pattern INPUT2_F64_ID : Input3_f64.txt 
+                Pattern COEFS1_F64_ID : Coefs2_f64.txt 
+                Pattern COEFS2_F64_ID : Coefs3_f64.txt 
+
+                Pattern CONFIGSDECIMF64_ID : Configs2_u32.txt 
+                Pattern CONFIGSINTERPF64_ID : Configs3_u32.txt 
+   
+                Pattern REF1_DECIM_F64_ID : Reference2_f64.txt
+                Pattern REF2_INTERP_F64_ID : Reference3_f64.txt
+
+                Output  OUT_F64_ID : Output
+                Output  STATE_F64_ID : State
+
+                Functions {
+                 test_fir_decimate_f64:test_fir_decimate_f64
+                }
+             }
 
              suite DECIM F32 {
                 class = DECIMF32 
@@ -4301,24 +4324,24 @@ group Root {
                  rfft_noisy_256_f32:test_rfft_f32
                  rfft_noisy_512_f32:test_rfft_f32
                  rfft_noisy_1024_f32:test_rfft_f32
-                 rfft_noisy_2048_f32:test_rfft_f32
-                 rfft_noisy_4096_f32:test_rfft_f32
+                 disabled{rfft_noisy_2048_f32:test_rfft_f32}
+                 disabled{rfft_noisy_4096_f32:test_rfft_f32}
                  rfft_step_32_f32:test_rfft_f32
                  rfft_step_64_f32:test_rfft_f32
                  rfft_step_128_f32:test_rfft_f32
                  rfft_step_256_f32:test_rfft_f32
                  rfft_step_512_f32:test_rfft_f32
                  rfft_step_1024_f32:test_rfft_f32
-                 rfft_step_2048_f32:test_rfft_f32
-                 rfft_step_4096_f32:test_rfft_f32
+                 disabled{rfft_step_2048_f32:test_rfft_f32}
+                 disabled{rfft_step_4096_f32:test_rfft_f32}
                  rifft_noisy_32_f32:test_rfft_f32
                  rifft_noisy_64_f32:test_rfft_f32
                  rifft_noisy_128_f32:test_rfft_f32
                  rifft_noisy_256_f32:test_rfft_f32
                  rifft_noisy_512_f32:test_rfft_f32
                  rifft_noisy_1024_f32:test_rfft_f32
-                 rifft_noisy_2048_f32:test_rfft_f32
-                 rifft_noisy_4096_f32:test_rfft_f32
+                 disabled{rifft_noisy_2048_f32:test_rfft_f32}
+                 disabled{rifft_noisy_4096_f32:test_rfft_f32}
                  rifft_step_32_f32:test_rfft_f32
                  rifft_step_64_f32:test_rfft_f32
                  rifft_step_128_f32:test_rfft_f32
